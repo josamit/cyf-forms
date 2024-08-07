@@ -19,10 +19,10 @@ export const setDefaultAxiosHeaders = token => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`
   axios.defaults.headers.common.application = 'application-process'
 }
+
 export const setToken = idToken => {
   // Saves user token to localStorage
   localStorage.setItem('cyf_forms_id_token', idToken)
-  setDefaultAxiosHeaders(idToken)
 }
 export const getToken = () => {
   // Retrieves the user token from localStorage
@@ -31,18 +31,6 @@ export const getToken = () => {
     return token
   }
   return null
-}
-export async function register(student) {
-  try {
-    const result = await axios.post(`${path}/applicant`, student)
-    if (result) {
-      setToken(result.data.token)
-      return result
-    }
-    throw new Error('NO_RESULT')
-  } catch (err) {
-    throw new Error(err)
-  }
 }
 
 export const isAdminTrue = token => {
@@ -55,12 +43,6 @@ export const isAdminTrue = token => {
   } catch (err) {
     return true
   }
-}
-// Checks if user is admin
-export const isAdmin = () => {
-  // Checks if there is a saved token and it's still valid
-  const token = getToken()
-  return !!token && !isAdminTrue(token) // handwaiving here
 }
 
 export const logout = () => {
